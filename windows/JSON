@@ -1,0 +1,17 @@
+https://fcm.googleapis.com/fcm/send
+
+Tipo de contenido: aplicación/json
+Autorización: Bearer AAAAhQ5ZgBg:APA91bHH1nQEXeTCSktVQuwd7bg6DYXCrLuzN8n1fUIUxStchsvnVaiBLW3wXqUfNz-AryMd-Ni0zWPP_sff3D41bGIcmW0OrqrylqzE3Rb8BGF7fOk3_VHbWgyNnPIMx6CfANoGaAAm
+
+{
+   "notification": {
+      "body":"texto de la notificacion!!!",
+      "title":"titulo prueba"
+   },
+   "priority": "high",
+   "data":{
+        "proyecto": "proyecto contado"    
+      },
+      "to":
+           "d7A8lCQoSVyAsK-T6k33ju:APA91bE6MBwQiLEgi_jU21eIx4YpC8WwX_SlX0kwsobsElJyoJGvs35kix18ScCyhjWCPi0R2rDTyuSsNdjeRL_b3giEn5Pv4Oi3M-zbYi6cyq6Xugh-QRV7IHDEdTUSQe2P4Eoutd_r"
+}
