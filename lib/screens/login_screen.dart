@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login/screens/home_screen.dart';
+import 'package:login/screens/Incidencias_screen.dart';
 import 'package:login/widgets/input_decoration.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -100,12 +100,12 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              //Navigator.push(
-                              //   context,
-                              //  MaterialPageRoute(
-                              //      builder: (context) => const HomeScreen()),
-                              // );
-                              Navigator.pushReplacementNamed(context, 'Home');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => IncidenciasScreen()),
+                              );
+                              //Navigator.pushReplacementNamed(context, 'Incidencia');
                             },
                           ),
                           const SizedBox(height: 30),
