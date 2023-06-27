@@ -17,7 +17,7 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
 
   Future<List<Incidencia>> _getIncidencias() async {
     try {
-      var uri = Uri.parse("http://192.168.0.2:3001/api/v1/mobile/incidents");
+      var uri = Uri.parse("http://172.20.168.129:3001/api/v1/mobile/incidents");
       final response = await http.get(uri);
       List<Incidencia> Incidencias = [];
       if (response.statusCode == 200) {

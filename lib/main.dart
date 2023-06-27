@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         scaffoldMessengerKey: messengerKey,
         routes: {
           'Login': (context) => const LoginScreen(),
-          'Incidencia':(context)=> IncidenciasScreen(),
+          'Incidencia': (context) => IncidenciasScreen(),
           'Home': (context) => const HomeScreen(),
           'message': (context) => message_screen(),
           'actividad': (context) => const actividad_screen(),
