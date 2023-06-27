@@ -16,36 +16,44 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
   late Future<List<Incidencia>> _listadoIncidencias;
 
   Future<List<Incidencia>> _getIncidencias() async {
-    var uri = Uri.parse("http://localhost:3001/api/v1/mobile/incidents");
-    final response = await http.get(uri);
-    List<Incidencia> Incidencias = [];
-    if (response.statusCode == 200) {
-      String body = utf8.decode(response.bodyBytes);
-      final jsonData = jsonDecode(body);
-      for (var item in jsonData["data"]) {
-        Incidencias.add(Incidencia(
-            item["descripcion"],
-            item["procedimiento"],
-            item["latitudDispositivo"],
-            item["longitudDispositivo"],
-            item["latitudIncidencia"],
-            item["longitudIncidencia"],
-            item["idOperativo"],
-            item["idCategoria"],
-            item["idTipoIncidencia"]));
-      }
-      print(Incidencias);
-      return Incidencias;
+    try {
+      var uri = Uri.parse("http://192.168.0.2:3001/api/v1/mobile/incidents");
+      final response = await http.get(uri);
+      List<Incidencia> Incidencias = [];
+      if (response.statusCode == 200) {
+        String body = utf8.decode(response.bodyBytes);
+        final jsonData = jsonDecode(body);
 
-      // Aquí deberías procesar los datos recibidos y devolver una lista de Incidencia
-    } else {
-      throw Exception("Fallo la conexión");
+        for (var item in jsonData["data"]) {
+          print('item $item');
+          Incidencias.add(Incidencia(
+              item["descripcion"],
+              item["procedimiento"],
+              item["latitudDispositivo"].toDouble(),
+              item["longitudDispositivo"].toDouble(),
+              item["latitudIncidencia"].toDouble(),
+              item["longitudIncidencia"].toDouble(),
+              item["idOperativo"],
+              item["idCategoria"],
+              item["idTipoIncidencia"]));
+        }
+        print(Incidencias);
+        return Incidencias;
+
+        // Aquí deberías procesar los datos recibidos y devolver una lista de Incidencia
+      } else {
+        throw Exception("Fallo la conexión");
+      }
+    } catch (e) {
+      print('Se produjo un error: $e');
+      throw Exception(e.toString());
     }
   }
 
   @override
   void initState() {
     super.initState();
+    print("ELIOOOOOT");
     _listadoIncidencias = _getIncidencias();
   }
 
@@ -84,8 +92,13 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(Incidencia.descripcion),
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                Incidencia.descripcion,
+                textAlign: TextAlign.left,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             )
           ],
         ),
