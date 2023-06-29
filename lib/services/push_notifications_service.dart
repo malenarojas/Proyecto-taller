@@ -35,7 +35,7 @@ class PushNotificationService {
     //push notifocations
     await Firebase.initializeApp();
     token = await FirebaseMessaging.instance.getToken();
-    print('token: $token');
+    print('push notification service TOKEN: $token');
     //handles
     FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
     FirebaseMessaging.onMessage.listen(_onMessageHandler);
