@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:login/models/Incidencia.dart';
+import 'package:login/screens/RegistrarIncidencias_screen.dart';
 
 void main() => runApp(IncidenciasScreen());
 
@@ -81,29 +82,59 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
             );
           },
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => RegistrarIncidenciasScreen()),
+            );
+          },
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
 
   List<Widget> _listIncidencias(List<Incidencia> data) {
-    List<Widget> Incidencias = [];
-    for (var Incidencia in data) {
-      Incidencias.add(Card(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                Incidencia.descripcion,
-                textAlign: TextAlign.left,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+    List<Widget> incidencias = [];
+    List<String> incidenciasImagenes = [
+      'images/Incidencia1.jpeg',
+      'images/Incidencia2.jpeg',
+      'images/Incidencia3.jpeg',
+      'images/Incidencia4.jpeg',
+      'images/Incidencia5.jpeg',
+      'images/Incidencia6.jpeg',
+    ];
+
+    for (var incidencia in data) {
+      incidencias.add(
+        Card(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  incidencia.descripcion,
+                  textAlign: TextAlign.left,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            )
-          ],
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: incidenciasImagenes.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Image.asset(incidenciasImagenes[index]);
+                },
+              ),
+            ],
+          ),
         ),
-      ));
+      );
     }
-    return Incidencias;
+
+    return incidencias;
   }
 }
