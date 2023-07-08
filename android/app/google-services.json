@@ -29,6 +29,13 @@
             {
               "client_id": "639047990515-auev8595qs0a0lrin7rbf1qk7sh9ubkq.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "639047990515-j14u5h29gd736kotfokfir08m51p39a9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.malenarojas.login"
+              }
             }
           ]
         }

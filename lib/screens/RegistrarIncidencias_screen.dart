@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/Estamento.dart';
+import '../models/Tipo.dart';
+
 void main() => runApp(RegistrarIncidenciasScreen());
 
 class RegistrarIncidenciasScreen extends StatefulWidget {
-  //ResgistrarIncidencia{Key key,th}
-
   @override
   _RegistrarIncidenciasScreenState createState() =>
       _RegistrarIncidenciasScreenState();
@@ -25,83 +26,121 @@ class _RegistrarIncidenciasScreenState
   TextEditingController idCategoriaController = TextEditingController();
   TextEditingController idTipoIncidenciaController = TextEditingController();
 
+  Estamento? selectedEstamento;
+  List<Estamento> estamentos = [
+    Estamento(4, "Malena Rojas", 218044322),
+    Estamento(6, "Maria Angélica Miranda Mendoza", 218123821),
+  ];
+  Categoria? selectedCategoria;
+  List<Categoria> categorias = [
+    Categoria(1, "Normal"),
+    Categoria(2, "Foraneo"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), hintText: 'Enter descripcion'),
-              controller: descripcionController,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), hintText: 'Enter procemiento'),
-              controller: procedimientoController,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter latitud dispositivo'),
-              controller: latitudDispositivoController,
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter longitud dispositivo'),
-              controller: longitudDispositivoController,
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter latitud Incidencia'),
-              controller: latitudIncidenciaController,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter latitud Incidencia'),
-              controller: longitudIncidenciaController,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter id del Usuario'),
-              controller: idUsuarioController,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter Categoria Incidencia'),
-              controller: idCategoriaController,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter tipo de incidencia'),
-              controller: idTipoIncidenciaController,
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
+      body: SingleChildScrollView(
+        child: Container(
+          //  width: double.infinity,
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              DropdownButton<Estamento>(
+                value: selectedEstamento,
+                onChanged: (Estamento? newValue) {
+                  setState(() {
+                    selectedEstamento = newValue!;
+                  });
+                },
+                items: estamentos.map<DropdownMenuItem<Estamento>>(
+                  (Estamento estamento) {
+                    return DropdownMenuItem<Estamento>(
+                      value: estamento,
+                      child: Text(estamento.nombre),
+                    );
+                  },
+                ).toList(),
+              ),
+              DropdownButton<Categoria>(
+                value: selectedCategoria,
+                onChanged: (Categoria? newValue) {
+                  setState(() {
+                    selectedCategoria = newValue!;
+                  });
+                },
+                items: categorias.map<DropdownMenuItem<Categoria>>(
+                  (Categoria categoria) {
+                    return DropdownMenuItem<Categoria>(
+                      value: categoria,
+                      child: Container(
+                        width: double.infinity, // Establece el ancho al máximo posible
+                        child: Text(categoria.nombre),
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter descripcion'),
+                controller: descripcionController,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter procemiento'),
+                controller: procedimientoController,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter latitud dispositivo'),
+                controller: latitudDispositivoController,
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter longitud dispositivo'),
+                controller: longitudDispositivoController,
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter latitud Incidencia'),
+                controller: latitudIncidenciaController,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter latitud Incidencia'),
+                controller: longitudIncidenciaController,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter tipo de incidencia'),
+                controller: idTipoIncidenciaController,
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
                 onPressed: () {
                   guardarRegistro();
                 },
-                child: Text("guardar Incidencia"))
-          ],
+                child: Text("Guardar Incidencia"),
+              )
+            ],
+          ),
         ),
       ),
     );

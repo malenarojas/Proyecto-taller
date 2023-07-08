@@ -36,7 +36,8 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
               item["longitudIncidencia"].toDouble(),
               item["idOperativo"],
               item["idCategoria"],
-              item["idTipoIncidencia"]));
+              item["idTipoIncidencia"],
+              item["idZone"]));
         }
         print(Incidencias);
         return Incidencias;

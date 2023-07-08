@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
-import 'package:login/models/PushMessage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login/firebase_options.dart';
+import 'package:login/models/PushMessage.dart';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
@@ -23,6 +22,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationsBloc() : super(const NotificationsState()) {
+    print("NotificationsBloc");
     on<NotificationStatusChanged>(_notificationStatusChanged);
     on<NotificationReceived>(_onPushMessageReceived);
 
@@ -64,6 +64,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   }
 
   void handleRemoteMessage(RemoteMessage message) {
+    print("handleRemoteMessage:${message.data}");
     if (message.notification == null) return;
 
     final notification = PushMessage(
@@ -81,6 +82,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   }
 
   void _onForegroundMessage() {
+    print("_onForegroundMessage");
     FirebaseMessaging.onMessage.listen(handleRemoteMessage);
   }
 

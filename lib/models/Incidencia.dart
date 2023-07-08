@@ -8,6 +8,7 @@ class Incidencia {
   int idOperativo;
   int idCategoria;
   int idTipoIncidencia;
+  int idZona;
 
   Incidencia(
       this.descripcion,
@@ -18,5 +19,6 @@ class Incidencia {
       this.longitudIncidencia,
       this.idOperativo,
       this.idCategoria,
-      this.idTipoIncidencia);
+      this.idTipoIncidencia,
+      this.idZona);
 }
