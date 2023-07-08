@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/config/constants.dart';
 
 import '../models/Estamento.dart';
 import '../models/Tipo.dart';
@@ -58,7 +59,9 @@ class _RegistrarIncidenciasScreenState
                   (Estamento estamento) {
                     return DropdownMenuItem<Estamento>(
                       value: estamento,
-                      child: Text(estamento.nombre),
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 0.81,
+                          child: Text(estamento.nombre)),
                     );
                   },
                 ).toList(),
@@ -75,7 +78,7 @@ class _RegistrarIncidenciasScreenState
                     return DropdownMenuItem<Categoria>(
                       value: categoria,
                       child: Container(
-                        width: double.infinity, // Establece el ancho al máximo posible
+                        width: MediaQuery.of(context).size.width * 0.81,
                         child: Text(categoria.nombre),
                       ),
                     );
@@ -85,59 +88,69 @@ class _RegistrarIncidenciasScreenState
               TextField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Enter descripcion'),
+                    hintText: 'Ingresar descripcion'),
                 controller: descripcionController,
               ),
               const SizedBox(height: 10),
               TextField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Enter procemiento'),
+                    hintText: 'Ingresar procemiento'),
                 controller: procedimientoController,
+                maxLines: null,
               ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       hintText: 'Ingresar latitud dispositivo'),
+              //   controller: latitudDispositivoController,
+              //   keyboardType: TextInputType.number,
+              // ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       hintText: 'Ingresar longitud dispositivo'),
+              //   controller: longitudDispositivoController,
+              //   keyboardType: TextInputType.number,
+              // ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       hintText: 'Ingresar latitud Incidencia'),
+              //   controller: latitudIncidenciaController,
+              // ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       hintText: 'Ingresar latitud Incidencia'),
+              //   controller: longitudIncidenciaController,
+              // ),
               const SizedBox(height: 10),
               TextField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Enter latitud dispositivo'),
-                controller: latitudDispositivoController,
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter longitud dispositivo'),
-                controller: longitudDispositivoController,
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter latitud Incidencia'),
-                controller: latitudIncidenciaController,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter latitud Incidencia'),
-                controller: longitudIncidenciaController,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter tipo de incidencia'),
+                    hintText: 'Ingresar tipo de incidencia'),
                 controller: idTipoIncidenciaController,
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  guardarRegistro();
-                },
-                child: Text("Guardar Incidencia"),
+              Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        guardarRegistro();
+                      },
+                      child: Text("REGISTRAR INCIDENCIA"),
+                    ),
+                  ),
+                ),
               )
             ],
           ),
@@ -159,7 +172,7 @@ class _RegistrarIncidenciasScreenState
     String idTipoIncidencia = idTipoIncidenciaController.text;
 
     // URL del endpoint del backend
-    String url = "http://172.20.168.129:3001/api/v1/mobile/incidents";
+    String url = "${Constants.API_URL}/incidents";
 
     try {
       // Envío de los datos del registro al backend

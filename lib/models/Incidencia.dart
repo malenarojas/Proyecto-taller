@@ -1,4 +1,5 @@
 class Incidencia {
+  int idIncidencia;
   String descripcion;
   String procedimiento;
   double latitudDispositivo;
@@ -9,8 +10,11 @@ class Incidencia {
   int idCategoria;
   int idTipoIncidencia;
   int idZona;
+  String zona;
+  String fechaCreacion;
 
   Incidencia(
+      this.idIncidencia,
       this.descripcion,
       this.procedimiento,
       this.latitudDispositivo,
@@ -20,5 +24,7 @@ class Incidencia {
       this.idOperativo,
       this.idCategoria,
       this.idTipoIncidencia,
-      this.idZona);
+      this.idZona,
+      this.zona,
+      this.fechaCreacion);
 }
