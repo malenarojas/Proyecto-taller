@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/config/constants.dart';
 import 'package:login/models/Incidencia.dart';
 import 'package:login/screens/RegistrarIncidencias_screen.dart';
 
@@ -18,7 +20,7 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
 
   Future<List<Incidencia>> _getIncidencias() async {
     try {
-      var uri = Uri.parse("http://172.20.168.129:3001/api/v1/mobile/incidents");
+      var uri = Uri.parse("${Constants.API_URL}/incidents");
       final response = await http.get(uri);
       List<Incidencia> Incidencias = [];
       if (response.statusCode == 200) {
@@ -26,8 +28,9 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
         final jsonData = jsonDecode(body);
 
         for (var item in jsonData["data"]) {
-          print('item $item');
+          print('item["zona"]["nombre"]: ${item["zona"]["nombre"]}');
           Incidencias.add(Incidencia(
+              item["idIncidencia"],
               item["descripcion"],
               item["procedimiento"],
               item["latitudDispositivo"].toDouble(),
@@ -35,14 +38,13 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
               item["latitudIncidencia"].toDouble(),
               item["longitudIncidencia"].toDouble(),
               item["idOperativo"],
-              item["idCategoria"],
-              item["idTipoIncidencia"],
-              item["idZone"]));
+              item["idCategoriaIncidencia"],
+              item["idTipo"],
+              item["idZona"],
+              item["zona"]["nombre"],
+              item["createdAt"]));
         }
-        print(Incidencias);
         return Incidencias;
-
-        // Aquí deberías procesar los datos recibidos y devolver una lista de Incidencia
       } else {
         throw Exception("Fallo la conexión");
       }
@@ -71,9 +73,16 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
           future: _listadoIncidencias,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return ListView(
-                children: _listIncidencias(snapshot.data as List<Incidencia>),
-              );
+              return RefreshIndicator(
+                  child: ListView(
+                    children:
+                        _listIncidencias(snapshot.data as List<Incidencia>),
+                  ),
+                  onRefresh: () async {
+                    setState(() {
+                      _listadoIncidencias = _getIncidencias();
+                    });
+                  });
             } else if (snapshot.hasError) {
               print(snapshot.error);
               return Text("Error");
@@ -109,28 +118,83 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
     ];
 
     for (var incidencia in data) {
+      int indexRandomImage = (0 + Random().nextInt(5 - 0 + 1)).toInt();
       incidencias.add(
         Card(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  incidencia.descripcion,
-                  textAlign: TextAlign.left,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+          margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+          clipBehavior: Clip.hardEdge,
+          child: InkWell(
+            splashColor: Colors.blue.withAlpha(30),
+            onTap: () {},
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Imagen de la Incidencia
+                Container(
+                    height: 350,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.all(0),
+                      child: Image.asset(incidenciasImagenes[indexRandomImage]),
+                    )),
+                // IdIncidencia
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "INCIDENCIA #${incidencia.idIncidencia.toString()}",
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Text(
+                              "${incidencia.zona}",
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(fontSize: 14),
+                            )
+                          ],
+                        ),
+                      ),
+                      Chip(
+                        backgroundColor: Colors.orange.shade700,
+                        label: const Text(
+                          'CREADO',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: incidenciasImagenes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Image.asset(incidenciasImagenes[index]);
-                },
-              ),
-            ],
+                // Descripción
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 16),
+                  child: Text(
+                    incidencia.descripcion,
+                    textAlign: TextAlign.left,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                // Padding(
+                //     padding: EdgeInsets.all(16),
+                //     child: ListView.builder(
+                //       shrinkWrap: true,
+                //       physics: NeverScrollableScrollPhysics(),
+                //       itemCount: incidenciasImagenes.length,
+                //       itemBuilder: (BuildContext context, int index) {
+                //         return Image.asset(incidenciasImagenes[index]);
+                //       },
+                //     )),
+              ],
+            ),
           ),
         ),
       );

@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/config/constants.dart';
 
 import '../models/Estamento.dart';
 import '../models/Tipo.dart';
+import '../models/Zona.dart';
+import '../models/categoria.dart';
 
 void main() => runApp(RegistrarIncidenciasScreen());
 
@@ -25,6 +28,7 @@ class _RegistrarIncidenciasScreenState
   TextEditingController idUsuarioController = TextEditingController();
   TextEditingController idCategoriaController = TextEditingController();
   TextEditingController idTipoIncidenciaController = TextEditingController();
+  TextEditingController idZonaController = TextEditingController();
 
   Estamento? selectedEstamento;
   List<Estamento> estamentos = [
@@ -35,6 +39,24 @@ class _RegistrarIncidenciasScreenState
   List<Categoria> categorias = [
     Categoria(1, "Normal"),
     Categoria(2, "Foraneo"),
+  ];
+  Tipo? selectedTipo;
+  List<Tipo> tipos = [
+    Tipo(1, "Robo"),
+    Tipo(2, "Violencia"),
+    Tipo(3, "Acoso"),
+    Tipo(4, "Estupefaciente"),
+    Tipo(5, "Bullyng"),
+    Tipo(6, "Bebidas alcoholicas"),
+    Tipo(7, "Conduccion Peligrosa"),
+    Tipo(8, "Parqueo inapropiado"),
+  ];
+
+  Zona? selectedzona;
+  List<Zona> zonas = [
+    Zona(1, "Campus"),
+    Zona(2, "Modulos"),
+    Zona(3, "Rectorado"),
   ];
 
   @override
@@ -58,7 +80,9 @@ class _RegistrarIncidenciasScreenState
                   (Estamento estamento) {
                     return DropdownMenuItem<Estamento>(
                       value: estamento,
-                      child: Text(estamento.nombre),
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 0.81,
+                          child: Text(estamento.nombre)),
                     );
                   },
                 ).toList(),
@@ -75,7 +99,7 @@ class _RegistrarIncidenciasScreenState
                     return DropdownMenuItem<Categoria>(
                       value: categoria,
                       child: Container(
-                        width: double.infinity, // Establece el ancho al máximo posible
+                        width: MediaQuery.of(context).size.width * 0.81,
                         child: Text(categoria.nombre),
                       ),
                     );
@@ -85,59 +109,121 @@ class _RegistrarIncidenciasScreenState
               TextField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Enter descripcion'),
+                    hintText: 'Ingresar descripcion'),
                 controller: descripcionController,
               ),
               const SizedBox(height: 10),
               TextField(
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Enter procemiento'),
+                    hintText: 'Ingresar procemiento'),
                 controller: procedimientoController,
+                maxLines: null,
               ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       hintText: 'Ingresar latitud dispositivo'),
+              //   controller: latitudDispositivoController,
+              //   keyboardType: TextInputType.number,
+              // ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       hintText: 'Ingresar longitud dispositivo'),
+              //   controller: longitudDispositivoController,
+              //   keyboardType: TextInputType.number,
+              // ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       hintText: 'Ingresar latitud Incidencia'),
+              //   controller: latitudIncidenciaController,
+              // ),
+              // const SizedBox(height: 10),
+              // TextField(
+              //   decoration: const InputDecoration(
+              //       border: OutlineInputBorder(),
+              //       hintText: 'Ingresar latitud Incidencia'),
+              //   controller: longitudIncidenciaController,
+              // ),
               const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter latitud dispositivo'),
-                controller: latitudDispositivoController,
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter longitud dispositivo'),
-                controller: longitudDispositivoController,
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter latitud Incidencia'),
-                controller: latitudIncidenciaController,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter latitud Incidencia'),
-                controller: longitudIncidenciaController,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter tipo de incidencia'),
-                controller: idTipoIncidenciaController,
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  guardarRegistro();
+              DropdownButton<Zona>(
+                value: selectedzona,
+                onChanged: (Zona? newValue) {
+                  setState(() {
+                    selectedzona = newValue!;
+                  });
                 },
-                child: Text("Guardar Incidencia"),
+                items: zonas.map<DropdownMenuItem<Zona>>(
+                  (Zona zona) {
+                    return DropdownMenuItem<Zona>(
+                      value: zona,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.81,
+                        child: Text(zona.nombre),
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
+              const SizedBox(height: 10),
+              DropdownButton<Tipo>(
+                value: selectedTipo,
+                onChanged: (Tipo? newValue) {
+                  setState(() {
+                    selectedTipo = newValue!;
+                  });
+                },
+                items: tipos.map<DropdownMenuItem<Tipo>>(
+                  (Tipo tipo) {
+                    return DropdownMenuItem<Tipo>(
+                      value: tipo,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.81,
+                        child: Text(tipo.nombre),
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        /*Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => mapp_scren(),
+                          ),
+                        );*/
+                      },
+                      child: Text("ENVIAR UBICACION DE LA INCIDENCIAQ"),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        guardarRegistro();
+                      },
+                      child: Text("REGISTRAR INCIDENCIA"),
+                    ),
+                  ),
+                ),
               )
             ],
           ),
@@ -157,9 +243,10 @@ class _RegistrarIncidenciasScreenState
     String idUsuario = idUsuarioController.text;
     String idCategoria = idCategoriaController.text;
     String idTipoIncidencia = idTipoIncidenciaController.text;
+    String idZona = idZonaController.text;
 
     // URL del endpoint del backend
-    String url = "http://172.20.168.129:3001/api/v1/mobile/incidents";
+    String url = "${Constants.API_URL}/incidents";
 
     try {
       // Envío de los datos del registro al backend
@@ -178,6 +265,7 @@ class _RegistrarIncidenciasScreenState
         'idOperativo': idUsuario,
         'idCategoria': idCategoria,
         'idTipoIncidencia': idTipoIncidencia,
+        'idZona': idZona,
       };
 
       print('Enviando body: $body');
