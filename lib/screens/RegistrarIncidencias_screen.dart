@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:login/bloc/blocs.dart';
 import 'package:login/config/constants.dart';
+import 'package:login/screens/loading_screen.dart';
+import 'package:login/screens/map_screen.dart';
 
 import '../models/Estamento.dart';
 import '../models/Tipo.dart';
@@ -63,187 +67,212 @@ class _RegistrarIncidenciasScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Container(
-          //  width: double.infinity,
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              DropdownButton<Estamento>(
-                value: selectedEstamento,
-                onChanged: (Estamento? newValue) {
-                  setState(() {
-                    selectedEstamento = newValue!;
-                  });
-                },
-                items: estamentos.map<DropdownMenuItem<Estamento>>(
-                  (Estamento estamento) {
-                    return DropdownMenuItem<Estamento>(
-                      value: estamento,
-                      child: Container(
+      body: BlocBuilder<MapBloc, MapState>(builder: (context, state) {
+        final mapBloc = BlocProvider.of<MapBloc>(context);
+        if (mapBloc.mapCenter != null) {
+          latitudDispositivoController.text =
+              mapBloc.mapCenter!.latitude.toString();
+          longitudDispositivoController.text =
+              mapBloc.mapCenter!.longitude.toString();
+        }
+        return SingleChildScrollView(
+          child: Container(
+            //  width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                DropdownButton<Estamento>(
+                  value: selectedEstamento,
+                  onChanged: (Estamento? newValue) {
+                    setState(() {
+                      selectedEstamento = newValue!;
+                    });
+                  },
+                  items: estamentos.map<DropdownMenuItem<Estamento>>(
+                    (Estamento estamento) {
+                      return DropdownMenuItem<Estamento>(
+                        value: estamento,
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 0.81,
+                            child: Text(estamento.nombre)),
+                      );
+                    },
+                  ).toList(),
+                ),
+                DropdownButton<Categoria>(
+                  value: selectedCategoria,
+                  onChanged: (Categoria? newValue) {
+                    setState(() {
+                      selectedCategoria = newValue!;
+                    });
+                  },
+                  items: categorias.map<DropdownMenuItem<Categoria>>(
+                    (Categoria categoria) {
+                      return DropdownMenuItem<Categoria>(
+                        value: categoria,
+                        child: Container(
                           width: MediaQuery.of(context).size.width * 0.81,
-                          child: Text(estamento.nombre)),
-                    );
+                          child: Text(categoria.nombre),
+                        ),
+                      );
+                    },
+                  ).toList(),
+                ),
+                TextField(
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Ingresar descripcion'),
+                  controller: descripcionController,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Ingresar procemiento'),
+                  controller: procedimientoController,
+                  maxLines: null,
+                ),
+                const SizedBox(height: 10),
+                DropdownButton<Zona>(
+                  value: selectedzona,
+                  onChanged: (Zona? newValue) {
+                    setState(() {
+                      selectedzona = newValue!;
+                    });
                   },
-                ).toList(),
-              ),
-              DropdownButton<Categoria>(
-                value: selectedCategoria,
-                onChanged: (Categoria? newValue) {
-                  setState(() {
-                    selectedCategoria = newValue!;
-                  });
-                },
-                items: categorias.map<DropdownMenuItem<Categoria>>(
-                  (Categoria categoria) {
-                    return DropdownMenuItem<Categoria>(
-                      value: categoria,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.81,
-                        child: Text(categoria.nombre),
+                  items: zonas.map<DropdownMenuItem<Zona>>(
+                    (Zona zona) {
+                      return DropdownMenuItem<Zona>(
+                        value: zona,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.81,
+                          child: Text(zona.nombre),
+                        ),
+                      );
+                    },
+                  ).toList(),
+                ),
+                const SizedBox(height: 10),
+                DropdownButton<Tipo>(
+                  value: selectedTipo,
+                  onChanged: (Tipo? newValue) {
+                    setState(() {
+                      selectedTipo = newValue!;
+                    });
+                  },
+                  items: tipos.map<DropdownMenuItem<Tipo>>(
+                    (Tipo tipo) {
+                      return DropdownMenuItem<Tipo>(
+                        value: tipo,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.81,
+                          child: Text(tipo.nombre),
+                        ),
+                      );
+                    },
+                  ).toList(),
+                ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: TextField(
+                //         decoration: const InputDecoration(
+                //             border: OutlineInputBorder(),
+                //             hintText: 'Latitud dispositivo'),
+                //         controller: latitudDispositivoController,
+                //         keyboardType: TextInputType.number,
+                //       ),
+                //     ),
+                //     const SizedBox(width: 10),
+                //     Expanded(
+                //       child: TextField(
+                //         decoration: const InputDecoration(
+                //             border: OutlineInputBorder(),
+                //             hintText: 'Longitud dispositivo'),
+                //         controller: longitudDispositivoController,
+                //         keyboardType: TextInputType.number,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Latitud Incidencia'),
+                        controller: latitudIncidenciaController,
                       ),
-                    );
-                  },
-                ).toList(),
-              ),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Ingresar descripcion'),
-                controller: descripcionController,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Ingresar procemiento'),
-                controller: procedimientoController,
-                maxLines: null,
-              ),
-              const SizedBox(height: 10),
-              DropdownButton<Zona>(
-                value: selectedzona,
-                onChanged: (Zona? newValue) {
-                  setState(() {
-                    selectedzona = newValue!;
-                  });
-                },
-                items: zonas.map<DropdownMenuItem<Zona>>(
-                  (Zona zona) {
-                    return DropdownMenuItem<Zona>(
-                      value: zona,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.81,
-                        child: Text(zona.nombre),
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
-              const SizedBox(height: 10),
-              DropdownButton<Tipo>(
-                value: selectedTipo,
-                onChanged: (Tipo? newValue) {
-                  setState(() {
-                    selectedTipo = newValue!;
-                  });
-                },
-                items: tipos.map<DropdownMenuItem<Tipo>>(
-                  (Tipo tipo) {
-                    return DropdownMenuItem<Tipo>(
-                      value: tipo,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.81,
-                        child: Text(tipo.nombre),
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       child: TextField(
-              //         decoration: const InputDecoration(
-              //             border: OutlineInputBorder(),
-              //             hintText: 'Latitud dispositivo'),
-              //         controller: latitudDispositivoController,
-              //         keyboardType: TextInputType.number,
-              //       ),
-              //     ),
-              //     const SizedBox(width: 10),
-              //     Expanded(
-              //       child: TextField(
-              //         decoration: const InputDecoration(
-              //             border: OutlineInputBorder(),
-              //             hintText: 'Longitud dispositivo'),
-              //         controller: longitudDispositivoController,
-              //         keyboardType: TextInputType.number,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              const SizedBox(height:10),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Latitud Incidencia'),
-                      controller: latitudIncidenciaController,
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                  Expanded(
-                    child: TextField(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Longitud Incidencia'),
-                      controller: longitudIncidenciaController,
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: TextField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Longitud Incidencia'),
+                        controller: longitudIncidenciaController,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => map_scren(),
-                        //   ),
-                        // );
-                      },
-                      child: const Text("CARGAR UBICACION DE LA INCIDENCIA"),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoadingScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text("CARGAR UBICACION DE LA INCIDENCIA"),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        guardarRegistro();
-                      },
-                      child: Text("REGISTRAR INCIDENCIA"),
+                Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          latitudDispositivoController.text =
+                              mapBloc.mapCenter!.latitude.toString();
+                          longitudDispositivoController.text =
+                              mapBloc.mapCenter!.longitude.toString();
+                          latitudIncidenciaController.text =
+                              mapBloc.ubiDispositivo!.latitude.toString();
+                          longitudIncidenciaController.text =
+                              mapBloc.ubiDispositivo!.longitude.toString();
+                          debugPrint("dispostivo lat = " +
+                              latitudDispositivoController.text +
+                              " long = " +
+                              longitudDispositivoController.text);
+                          debugPrint("incidencia lat = " +
+                              latitudIncidenciaController.text +
+                              " long = " +
+                              longitudIncidenciaController.text);
+                          guardarRegistro();
+                        },
+                        child: const Text("REGISTRAR INCIDENCIA"),
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 

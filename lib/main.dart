@@ -6,15 +6,26 @@ import 'package:login/screens/home_screen.dart';
 import 'package:login/screens/login_screen.dart';
 import 'package:login/screens/message_screens.dart';
 import 'package:login/screens/status_screen.dart';
-//import 'package:login/screens/map_screen.dart';
+import 'package:login/screens/map_screen.dart';
 //import 'package:login/services/push_notifications_service.dart';
 import 'package:login/services/socket_service.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:login/bloc/blocs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await PushNotificationService.initializeApp();
-  runApp(MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => GpsBloc()),
+        BlocProvider(create: (context) => LocationBloc()),
+        BlocProvider(create: (context) => MapBloc()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -59,8 +70,8 @@ class _MyAppState extends State<MyApp> {
           'message': (context) => message_screen(),
           'actividad': (context) => const actividad_screen(),
           'status': (context) => status_screen(),
-          'actividad1': (context) => actividad1_screen(),
-          //'map': (context) => map_screen(),
+          'actividad1': (context) => const actividad1_screen(),
+          'map': (context) => const MapScreen(),
         },
       ),
     );

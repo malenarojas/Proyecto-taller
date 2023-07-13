@@ -49,7 +49,8 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
         throw Exception("Fallo la conexión");
       }
     } catch (e) {
-      print('Se produjo un error: $e');
+      print('Se produjo un error: $e'
+      );
       throw Exception(e.toString());
     }
   }
