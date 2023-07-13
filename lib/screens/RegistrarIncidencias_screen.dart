@@ -190,29 +190,9 @@ class _RegistrarIncidenciasScreenState
                   },
                 ).toList(),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => mapp_scren(),
-                          ),
-                        );*/
-                      },
-                      child: Text("ENVIAR UBICACION DE LA INCIDENCIAQ"),
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
+            
+              
+                 SizedBox(
                   width: double.infinity,
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 0),
@@ -224,7 +204,7 @@ class _RegistrarIncidenciasScreenState
                     ),
                   ),
                 ),
-              )
+            
             ],
           ),
         ),
