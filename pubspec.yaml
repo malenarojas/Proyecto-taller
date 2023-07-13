@@ -48,6 +48,7 @@ dependencies:
   go_router: ^9.0.0
   cloud_firestore: ^4.8.2
   firebase_auth: ^4.6.3
+<<<<<<< HEAD
   # geolocator: ^9.0.0
   # google_maps_flutter: ^2.3.1
   # permission_handler: ^10.0.0
@@ -56,6 +57,14 @@ dependencies:
   permission_handler: ^8.3.0
   google_polyline_algorithm: ^3.1.0
   animate_do: ^2.0.0
+=======
+  firebase_database: ^10.2.3
+  google_maps_flutter: ^2.3.1
+  localization: ^2.1.0
+  image_picker: ^1.0.1
+  http_parser: ^4.0.2
+  flutter_dotenv: ^5.1.0
+>>>>>>> 5b34d9263ef7ea1c23d89585c8ff2a441e23ba64
  
 
 dev_dependencies:

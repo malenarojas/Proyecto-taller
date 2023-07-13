@@ -25,6 +25,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+<<<<<<< HEAD
   animate_do:
     dependency: "direct main"
     description:
@@ -33,6 +34,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+=======
+>>>>>>> 5b34d9263ef7ea1c23d89585c8ff2a441e23ba64
   args:
     dependency: transitive
     description:
@@ -504,6 +507,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+<<<<<<< HEAD
   google_polyline_algorithm:
     dependency: "direct main"
     description:
@@ -512,6 +516,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
+=======
+>>>>>>> 5b34d9263ef7ea1c23d89585c8ff2a441e23ba64
   graphs:
     dependency: transitive
     description:
