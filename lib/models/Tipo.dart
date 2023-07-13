@@ -1,6 +1,7 @@
-class Categoria {
-  final int idCategoria;
+class Tipo {
+  final int idTipo;
   final String nombre;
 
-  Categoria(this.idCategoria, this.nombre);
+  Tipo(this.idTipo, this.nombre);
 }
+
