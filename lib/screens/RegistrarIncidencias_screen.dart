@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:login/bloc/blocs.dart';
 import 'package:login/config/constants.dart';
 import 'package:login/screens/loading_screen.dart';
-import 'package:login/screens/map_screen.dart';
 
 import '../models/Estamento.dart';
 import '../models/Tipo.dart';
