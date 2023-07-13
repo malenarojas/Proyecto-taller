@@ -1,5 +1,5 @@
-import 'dart:io';
-import 'package:clinica_app_taller/screens/screens.dart';
+/*import 'dart:io';
+//import 'package:clinica_app_taller/screens/screens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +53,7 @@ class _FacialScreenState extends State<FacialScreen> {
 
         final identifiedUser = await _facialService.identifyUser(_imageFile!);
         setState(() {
-          _identifiedUser = identifiedUser;
+         // _identifiedUser = identifiedUser;
           _identificationCompleted = true;
           _isIdentifying = false;
         });
@@ -79,11 +79,11 @@ class _FacialScreenState extends State<FacialScreen> {
             ),
             child: Column(
               children: [
-                NavBar(
+                /*NavBar(
                   isHome: false,
                   icon: Icons.arrow_back,
                   onPressed: () => Navigator.pop(context),
-                ),
+                ),*/
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -291,4 +291,4 @@ class _FacialScreenState extends State<FacialScreen> {
       ),
     );
   }
-}
+}*/
