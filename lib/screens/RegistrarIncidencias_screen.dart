@@ -120,36 +120,6 @@ class _RegistrarIncidenciasScreenState
                 controller: procedimientoController,
                 maxLines: null,
               ),
-              // const SizedBox(height: 10),
-              // TextField(
-              //   decoration: const InputDecoration(
-              //       border: OutlineInputBorder(),
-              //       hintText: 'Ingresar latitud dispositivo'),
-              //   controller: latitudDispositivoController,
-              //   keyboardType: TextInputType.number,
-              // ),
-              // const SizedBox(height: 10),
-              // TextField(
-              //   decoration: const InputDecoration(
-              //       border: OutlineInputBorder(),
-              //       hintText: 'Ingresar longitud dispositivo'),
-              //   controller: longitudDispositivoController,
-              //   keyboardType: TextInputType.number,
-              // ),
-              // const SizedBox(height: 10),
-              // TextField(
-              //   decoration: const InputDecoration(
-              //       border: OutlineInputBorder(),
-              //       hintText: 'Ingresar latitud Incidencia'),
-              //   controller: latitudIncidenciaController,
-              // ),
-              // const SizedBox(height: 10),
-              // TextField(
-              //   decoration: const InputDecoration(
-              //       border: OutlineInputBorder(),
-              //       hintText: 'Ingresar latitud Incidencia'),
-              //   controller: longitudIncidenciaController,
-              // ),
               const SizedBox(height: 10),
               DropdownButton<Zona>(
                 value: selectedzona,
@@ -190,6 +160,51 @@ class _RegistrarIncidenciasScreenState
                   },
                 ).toList(),
               ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: TextField(
+              //         decoration: const InputDecoration(
+              //             border: OutlineInputBorder(),
+              //             hintText: 'Latitud dispositivo'),
+              //         controller: latitudDispositivoController,
+              //         keyboardType: TextInputType.number,
+              //       ),
+              //     ),
+              //     const SizedBox(width: 10),
+              //     Expanded(
+              //       child: TextField(
+              //         decoration: const InputDecoration(
+              //             border: OutlineInputBorder(),
+              //             hintText: 'Longitud dispositivo'),
+              //         controller: longitudDispositivoController,
+              //         keyboardType: TextInputType.number,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              const SizedBox(height:10),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Latitud Incidencia'),
+                      controller: latitudIncidenciaController,
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: TextField(
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Longitud Incidencia'),
+                      controller: longitudIncidenciaController,
+                    ),
+                  ),
+                ],
+              ),
               Align(
                 alignment: Alignment.center,
                 child: SizedBox(
@@ -198,14 +213,14 @@ class _RegistrarIncidenciasScreenState
                     padding: EdgeInsets.symmetric(horizontal: 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => mapp_scren(),
-                          ),
-                        );*/
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => map_scren(),
+                        //   ),
+                        // );
                       },
-                      child: Text("ENVIAR UBICACION DE LA INCIDENCIAQ"),
+                      child: const Text("CARGAR UBICACION DE LA INCIDENCIA"),
                     ),
                   ),
                 ),
