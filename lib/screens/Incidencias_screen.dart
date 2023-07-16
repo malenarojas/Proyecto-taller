@@ -1,4 +1,4 @@
-import 'dart:async';
+/*import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -20,7 +20,7 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
 
   Future<List<Incidencia>> _getIncidencias() async {
     try {
-      var uri = Uri.parse("${Constants.API_URL}/incidents");
+      var uri = Uri.parse("${Constants.API_URL}/incidencias");
       final response = await http.get(uri);
       List<Incidencia> Incidencias = [];
       if (response.statusCode == 200) {
@@ -29,7 +29,7 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
 
         for (var item in jsonData["data"]) {
           print('item["zona"]["nombre"]: ${item["zona"]["nombre"]}');
-          Incidencias.add(Incidencia(
+          Incidencias.add( Incidencia(
               item["idIncidencia"],
               item["descripcion"],
               item["procedimiento"],
@@ -40,8 +40,10 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
               item["idOperativo"],
               item["idCategoriaIncidencia"],
               item["idTipo"],
+              item["idDenuncia"],
               item["idZona"],
               item["zona"]["nombre"],
+              item["imagenes"],
               item["createdAt"]));
         }
         return Incidencias;
@@ -67,7 +69,7 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
       title: 'Material App',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Material App Bar'),
+          title: const Text('Lsita de incidencias'),
         ),
         body: FutureBuilder(
           future: _listadoIncidencias,
@@ -202,4 +204,4 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
 
     return incidencias;
   }
-}
+}*/

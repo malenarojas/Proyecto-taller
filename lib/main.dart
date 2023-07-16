@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:login/screens/Incidencias_screen.dart';
 import 'package:login/screens/actividad1_screen.dart';
 import 'package:login/screens/actividad_screen.dart';
 import 'package:login/screens/home_screen.dart';
@@ -53,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         // scaffoldMessengerKey: messengerKey,
         routes: {
           'Login': (context) => const LoginScreen(),
-          'Incidencia': (context) => IncidenciasScreen(),
+          //'Incidencia': (context) => IncidenciasScreen(),
           'Home': (context) => const HomeScreen(),
           'message': (context) => message_screen(),
           'actividad': (context) => const actividad_screen(),

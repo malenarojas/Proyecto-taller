@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login/screens/Incidencias_screen.dart';
+import 'package:login/screens/RegistrarIncidencias_screen.dart';
 import 'package:login/widgets/input_decoration.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -103,7 +103,7 @@ class LoginScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => IncidenciasScreen()),
+                                    builder: (context) => RegistrarIncidenciasScreen()),
                               );
                               //Navigator.pushReplacementNamed(context, 'Incidencia');
                             },

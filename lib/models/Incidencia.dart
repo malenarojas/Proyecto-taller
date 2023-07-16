@@ -9,6 +9,7 @@ class Incidencia {
   int idOperativo;
   int idCategoria;
   int idTipoIncidencia;
+  int idDenuncia;
   int idZona;
   String zona;
   String fechaCreacion;
@@ -24,7 +25,9 @@ class Incidencia {
       this.idOperativo,
       this.idCategoria,
       this.idTipoIncidencia,
+      this.idDenuncia,
       this.idZona,
       this.zona,
-      this.fechaCreacion);
+      this.fechaCreacion,
+      item);
 }

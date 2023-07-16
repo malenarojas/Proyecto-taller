@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:login/config/constants.dart';
+import 'package:login/screens/Facial_screen.dart';
 
 import '../models/Estamento.dart';
 import '../models/Tipo.dart';
@@ -32,8 +35,8 @@ class _RegistrarIncidenciasScreenState
 
   Estamento? selectedEstamento;
   List<Estamento> estamentos = [
-    Estamento(4, "Malena Rojas", 218044322),
-    Estamento(6, "Maria Angélica Miranda Mendoza", 218123821),
+    Estamento(idEstamento: 4,nombre: 'malena Rojas Camargo', codigo: 218099282, foto: ''),
+    Estamento(idEstamento: 6,nombre: 'Angelica miranda mendoza', codigo: 218099282, foto: ''),
   ];
   Categoria? selectedCategoria;
   List<Categoria> categorias = [
@@ -58,6 +61,8 @@ class _RegistrarIncidenciasScreenState
     Zona(2, "Modulos"),
     Zona(3, "Rectorado"),
   ];
+
+  File? selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -190,8 +195,29 @@ class _RegistrarIncidenciasScreenState
                   },
                 ).toList(),
               ),
-            
-              
+                 const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  pickImage();
+                },
+                child: Text("Seleccionar imagen"),
+              ),
+              selectedImage != null
+                  ? Image.file(selectedImage!)
+                  : Container(),
+              const SizedBox(height: 10),
+                 SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        //guardarRegistro();
+                      },
+                      child: Text("Registrar una ubicacion"),
+                    ),
+                  ),
+                ),
                  SizedBox(
                   width: double.infinity,
                   child: Padding(
@@ -199,17 +225,41 @@ class _RegistrarIncidenciasScreenState
                     child: ElevatedButton(
                       onPressed: () {
                         guardarRegistro();
+                         mostrarMensaje('Se guardo correctamente');
                       },
                       child: Text("REGISTRAR INCIDENCIA"),
                     ),
                   ),
                 ),
-            
+               FloatingActionButton(
+               onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FacialScreen()),
+                );
+              },
+              child: Icon(Icons.add),
+            ),
             ],
           ),
         ),
       ),
     );
+  }
+  void mostrarMensaje(String mensaje) {
+  final snackBar = SnackBar(content: Text(mensaje));
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedImage != null) {
+        selectedImage = File(pickedImage.path);
+      }
+    });
   }
 
   Future<void> guardarRegistro() async {
@@ -229,6 +279,12 @@ class _RegistrarIncidenciasScreenState
     String url = "${Constants.API_URL}/incidents";
 
     try {
+        List<String> base64Images = [];
+      if (selectedImage != null) {
+        List<int> imageBytes = await selectedImage!.readAsBytes();
+        String base64Image = base64Encode(imageBytes);
+        base64Images.add(base64Image);
+      }
       // Envío de los datos del registro al backend
       Map<String, String> headers = {
         'Content-Type': 'application/json',
@@ -246,6 +302,7 @@ class _RegistrarIncidenciasScreenState
         'idCategoria': idCategoria,
         'idTipoIncidencia': idTipoIncidencia,
         'idZona': idZona,
+        'imagenes':  jsonEncode(base64Images),
       };
 
       print('Enviando body: $body');

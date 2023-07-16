@@ -1,11 +1,12 @@
-/*import 'dart:io';
+import 'dart:io';
+
 //import 'package:clinica_app_taller/screens/screens.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:login/models/Usuario.dart';
+import 'package:login/screens/registrar_infractor.dart';
 import 'package:login/services/FacialServices.dart';
+
 ///import 'package:clinica_app_taller/widgets/widgets.dart';
 
 class FacialScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class FacialScreen extends StatefulWidget {
 
 class _FacialScreenState extends State<FacialScreen> {
   File? _imageFile;
-  User? _identifiedUser;
+  final String _identifiedUser = ' ';
   bool _isIdentifying = false;
   bool _identificationCompleted = false;
   final _facialService = FacialService();
@@ -51,9 +52,9 @@ class _FacialScreenState extends State<FacialScreen> {
           _isIdentifying = true;
         });
 
-        final identifiedUser = await _facialService.identifyUser(_imageFile!);
+        final identifiedUser = await _facialService.identifyUser(context,_imageFile!);
         setState(() {
-         // _identifiedUser = identifiedUser;
+          // _identifiedUser = identifiedUser;
           _identificationCompleted = true;
           _isIdentifying = false;
         });
@@ -79,11 +80,11 @@ class _FacialScreenState extends State<FacialScreen> {
             ),
             child: Column(
               children: [
-                /*NavBar(
-                  isHome: false,
-                  icon: Icons.arrow_back,
-                  onPressed: () => Navigator.pop(context),
-                ),*/
+                // NavBar(
+                //   isHome: false,
+                //   icon: Icons.arrow_back,
+                //   onPressed: () => Navigator.pop(context),
+                // ),
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -163,12 +164,10 @@ class _FacialScreenState extends State<FacialScreen> {
                                   ],
                                 ),
                               const SizedBox(height: 20),
-
                               if (_imageFile != null && _isIdentifying == true)
                                 const CupertinoActivityIndicator(
                                   color: Color(0xFF085C9D),
                                 ),
-
                               if (_imageFile != null && _isIdentifying == false)
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -198,7 +197,7 @@ class _FacialScreenState extends State<FacialScreen> {
                                     if (_identificationCompleted == false)
                                       InkWell(
                                         onTap: () {
-                                          _identifyUser();
+                                         _identifyUser();
                                         },
                                         child: Container(
                                           width: 60,
@@ -215,7 +214,8 @@ class _FacialScreenState extends State<FacialScreen> {
                                       ),
                                   ],
                                 ),
-                              if (_identificationCompleted == true && _isIdentifying == false)
+                              if (_identificationCompleted == true &&
+                                  _isIdentifying == false)
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -240,43 +240,40 @@ class _FacialScreenState extends State<FacialScreen> {
                                       ),
                                     ),
                                     const SizedBox(width: 40),
-                                    if( _identifiedUser != null)
+                                    if (_identifiedUser != null)
                                       InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                            builder: (context) => ShowFScreen(
-                                              
-                                              user: _identifiedUser!,
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (context) => RegistrarInfractorScreen(
+                                                //user: _identifiedUser!,
+                                              ),
                                             ),
+                                          );
+                                        },
+                                        child: Container(
+                                          width: 60,
+                                          height: 60,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Color(0xFF085C9D),
                                           ),
-                                        );
-                                      },
-                                      
-                                      child: Container(
-                                        width: 60,
-                                        height: 60,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Color(0xFF085C9D),
-                                        ),
-                                        child: const Icon(
-                                          Icons.medical_information_outlined,
-                                          color: Colors.white,
+                                          child: const Icon(
+                                            Icons.medical_information_outlined,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
-                                    ),
                                   ],
                                 ),
                               const SizedBox(height: 30),
-                              if (_identificationCompleted &&
+                             /* if (_identificationCompleted &&
                                   _identifiedUser == null)
-                                const Text('NO SE ENCONTRO NINGUN USUARIO.'),
+                                const Text('NO SE ENCONTRO NINGUN USUARIO.'),*/
                               if (_identifiedUser != null)
-                                Text(
-                                    'Usuario identificado: ${_identifiedUser!.name}'),
-                              
+                                const Text(
+                                    'Usuario reincidente: '),/*${_identifiedUser!.nombre}*/
                             ],
                           ),
                         ),
@@ -288,7 +285,7 @@ class _FacialScreenState extends State<FacialScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}*/
+      ),
+    );
+  }
+}
