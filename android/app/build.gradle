@@ -44,11 +44,7 @@ android {
 
     defaultConfig {
         applicationId "com.malenarojas.login"
-<<<<<<< HEAD
-        minSdkVersion 20
-=======
         minSdkVersion 21
->>>>>>> 5b34d9263ef7ea1c23d89585c8ff2a441e23ba64
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
