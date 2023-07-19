@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:login/screens/RegistrarIncidencias_screen.dart';
 import 'package:login/widgets/input_decoration.dart';
+
+import '../widgets/drawer_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -61,14 +62,13 @@ class LoginScreen extends StatelessWidget {
                                 hintText: '218099282',
                                 labelText: 'Codigo',
                                 icono:
-                                    const Icon(Icons.alternate_email_rounded)),
+                                    const Icon(Icons.numbers)),
                             validator: (value) {
-                              String pattern =
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                              String pattern = r'^\d+$';
                               RegExp regExp = new RegExp(pattern);
                               return regExp.hasMatch(value ?? '')
                                   ? null
-                                  : 'El valor ingresado no es un correo';
+                                  : 'El valor ingresado no es un numero';
                             },
                           ),
                           const SizedBox(height: 50),
@@ -103,7 +103,7 @@ class LoginScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RegistrarIncidenciasScreen()),
+                                    builder: (context) => MainPage()),
                               );
                               //Navigator.pushReplacementNamed(context, 'Incidencia');
                             },

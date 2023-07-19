@@ -39,7 +39,7 @@ class _RegistrarInfractorScreenState extends State<RegistrarInfractorScreen> {
       });
 
       try {
-        final url = 'http://localhost:8000/api/mediaInfractor/store';
+        final url = 'https://incidentsapi.site/public/api/mediaInfractor/store';
 
         List<int> imageBytes = await _imageFile!.readAsBytes();
         String base64Image = base64Encode(imageBytes);

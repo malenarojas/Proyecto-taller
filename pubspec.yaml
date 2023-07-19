@@ -58,6 +58,7 @@ dependencies:
   http_parser: ^4.0.2
   flutter_dotenv: ^5.1.0
   animate_do: ^2.0.0
+  #google_fonts: ^5.1.0
  
 
 dev_dependencies:
@@ -91,6 +92,8 @@ flutter:
       - images/Incidencia4.jpeg
       - images/Incidencia5.jpeg
       - images/Incidencia6.jpeg
+      - images/drawer.jpg
+      - images/profile.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

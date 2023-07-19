@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:login/bloc/blocs.dart';
 import 'package:login/config/constants.dart';
-import 'package:login/config/constants.dart';
 import 'package:login/screens/Facial_screen.dart';
 import 'package:login/screens/loading_screen.dart';
 
@@ -265,7 +264,6 @@ class _RegistrarIncidenciasScreenState
                     },
                     child: Icon(Icons.add),
                   ),
-
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
@@ -282,17 +280,9 @@ class _RegistrarIncidenciasScreenState
                                 mapBloc.ubiDispositivo!.latitude.toString();
                             longitudIncidenciaController.text =
                                 mapBloc.ubiDispositivo!.longitude.toString();
-                            debugPrint("dispostivo lat = " +
-                                latitudDispositivoController.text +
-                                " long = " +
-                                longitudDispositivoController.text);
-                            debugPrint("incidencia lat = " +
-                                latitudIncidenciaController.text +
-                                " long = " +
-                                longitudIncidenciaController.text);
-                            guardarRegistro();
+                            //guardarRegistro();
                           },
-                          child: const Text("REGISTRAR INCIDENCIA"),
+                          child: const Text("Cargar ubicacion"),
                         ),
                       ),
                     ),
