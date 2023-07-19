@@ -141,21 +141,19 @@ class LoginScreen extends StatelessWidget {
 
   Container cajapurpura(Size Size) {
     return Container(
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(colors: [
-        Color.fromARGB(219, 33, 45, 168),
-        Color.fromARGB(219, 98, 119, 195),
-      ])),
+      // decoration: const BoxDecoration(
+      //     gradient: LinearGradient(colors: [
+      //   Color.fromARGB(219, 33, 45, 168),
+      //   Color.fromARGB(219, 98, 119, 195),
+      // ])),
       width: double.infinity,
-      height: Size.height * 0.4,
-      child: Stack(
-        children: [
-          Positioned(child: burbuja(), top: 90, left: 30),
-          Positioned(child: burbuja(), top: -40, left: -30),
-          Positioned(child: burbuja(), top: -50, right: -20),
-          Positioned(child: burbuja(), bottom: -50, left: 10),
-          Positioned(child: burbuja(), bottom: 120, right: 20),
-        ],
+      height: Size.height * 0.45,
+      child: Padding(
+        padding: EdgeInsets.all(0),
+        child: Image.asset(
+          'images/authuagrm.jpg',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
