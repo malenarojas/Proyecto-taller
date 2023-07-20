@@ -13,13 +13,12 @@ class MainPage extends StatefulWidget {
   final String codigo;
   final String contrasena;
 
-   MainPage({required this.codigo, required this.contrasena});
+  MainPage({required this.codigo, required this.contrasena});
+
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-
-
   void sendPostRequest() async {
     // Construir el cuerpo de la solicitud POST en formato JSON
     Map<String, dynamic> requestBody = {
@@ -30,6 +29,7 @@ class _MainPageState extends State<MainPage> {
     try {
       // Realizar la solicitud POST
       String urls = "${Constants.API_URL}/emergencia";
+      print('urls: ${urls}');
       Uri url = Uri.parse(urls);
       final response = await http.post(
         url,
@@ -43,6 +43,8 @@ class _MainPageState extends State<MainPage> {
       if (response.statusCode == 200) {
         // La solicitud fue exitosa, aquí puedes manejar la respuesta del servidor si es necesario
         print('Solicitud POST exitosa');
+        mostrarMensaje(
+            "Tu solicitud de auxilio fue realizada, por favor espera a que los encargados se comuniquen contigo.");
       } else {
         // La solicitud falló, aquí puedes manejar el error si es necesario
         print('Error en la solicitud POST: ${response.statusCode}');
@@ -53,56 +55,62 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  void mostrarMensaje(String mensaje) {
+    final snackBar = SnackBar(content: Text(mensaje));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   late List<Widget> pages;
   bool showButton = false;
 
   void initState() {
     super.initState();
-   showResultPage(widget.codigo);
-   pages = [
-     Center(
+    showResultPage(widget.codigo);
+    pages = [
+      Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //Text('Bienvenido ${widget.codigo}'),
             showButton // Mostrar el botón si showButton es true
                 ? FloatingActionButton.extended(
-              onPressed: () {
-                sendPostRequest();
-              },
-              label: Text('Botón de Emergencia'),
-              icon: Icon(Icons.done),
-              backgroundColor: Colors.red, // Color de fondo rojo
-            )
+                    onPressed: () {
+                      sendPostRequest();
+                    },
+                    label: Text('Botón de Emergencia'),
+                    icon: Icon(Icons.done),
+                    backgroundColor: Colors.red, // Color de fondo rojo
+                  )
                 : Container(),
           ],
         ),
       ),
-    const Center(
-      child: Text('Registrar Incidencias'),
-    ),
-    const Center(
-      child: Text('Registrar ubicacion'),
-    ),
-    const Center(
-      child: Text('Boton alert'),
-    ),
-    const Center(
-      child: Text('Trash'),
-    ),
-    const Center(
-      child: Text('Spam'),
-    ),
-  ];
-}
-void updateState(int index) {
-  setState(() {
-    indexClicked = index;
-  });
-  Navigator.pop(context);
-}
+      const Center(
+        child: Text('Registrar Incidencias'),
+      ),
+      const Center(
+        child: Text('Registrar ubicacion'),
+      ),
+      const Center(
+        child: Text('Boton alert'),
+      ),
+      const Center(
+        child: Text('Trash'),
+      ),
+      const Center(
+        child: Text('Spam'),
+      ),
+    ];
+  }
 
- bool isValidNumber(String number) {
+  void updateState(int index) {
+    setState(() {
+      indexClicked = index;
+    });
+    Navigator.pop(context);
+  }
+
+  bool isValidNumber(String number) {
     // Aquí puedes agregar tus propias condiciones de validación
     // Por ejemplo, validar si el número es un número entero positivo
     try {
@@ -114,7 +122,7 @@ void updateState(int index) {
   }
 
   void showResultPage(String codigo) {
-    String number = '218099282'; // Reemplaza esto por el número encontrado
+    String number = '219079773' == codigo ? codigo : 'as';
     bool isValid = isValidNumber(number);
 
     if (isValid) {
@@ -122,29 +130,15 @@ void updateState(int index) {
         showButton = true; // Mostrar el botón si el número es válido
       });
     } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Número no válido'),
-            content: Text('El número encontrado no es válido.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+      setState(() {
+        showButton = false; // Mostrar el botón si el número es válido
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-     final codigo = widget.codigo; // Crear una variable local para 'codigo'
+    final codigo = widget.codigo; // Crear una variable local para 'codigo'
     final contrasena = widget.contrasena;
     return Scaffold(
       appBar: AppBar(
@@ -179,7 +173,7 @@ void updateState(int index) {
                       height: 10,
                     ),
                     Text(
-                      'John Rambo',
+                      'Pedro Alcocer',
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.white,
@@ -190,7 +184,7 @@ void updateState(int index) {
                       height: 5,
                     ),
                     Text(
-                      'john@rambo.com',
+                      'pedroalcocer@gmail.com',
                       style: TextStyle(
                         fontSize: 10,
                         color: Colors.white,
@@ -207,32 +201,37 @@ void updateState(int index) {
                 children: [
                   AppDrawerTile(
                     index: 0,
-                    onTap: ()=> Navigator.pushReplacementNamed(context, 'Facial'),
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(context, 'Facial'),
                   ),
                   AppDrawerTile(
                     index: 1,
-                    onTap: ()=> Navigator.pushReplacementNamed(context, 'Registrar Incidencias'),
+                    onTap: () => Navigator.pushReplacementNamed(
+                        context, 'Registrar Incidencias'),
                   ),
                   AppDrawerTile(
                     index: 2,
-                    onTap: ()=> Navigator.pushReplacementNamed(context, ''),
+                    onTap: () => Navigator.pushReplacementNamed(context, ''),
                   ),
                   AppDrawerTile(
                     index: 3,
-                    onTap: ()=> Navigator.pushReplacementNamed(context, 'Home'),
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(context, 'Home'),
                   ),
                   AppDrawerTile(
                     index: 4,
-                    onTap: ()=> Navigator.pushReplacementNamed(context, 'Home'),
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(context, 'Home'),
                   ),
                   AppDrawerTile(
                     index: 5,
-                    onTap: ()=> Navigator.pushReplacementNamed(context, 'Home'),
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(context, 'Home'),
                   ),
                   const SizedBox(
                     height: 30,
                   ),
-                   AppDrawerDivider(),
+                  AppDrawerDivider(),
                   const SizedBox(
                     height: 10,
                   ),
@@ -264,14 +263,13 @@ void updateState(int index) {
                   const SizedBox(
                     height: 10,
                   ),
-                 AppDrawerDivider(),
+                  AppDrawerDivider(),
                 ],
               ),
             ),
           ],
         ),
       ),
-      
     );
   }
 }
