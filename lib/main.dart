@@ -18,7 +18,6 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await PushNotificationService.initializeApp();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -37,23 +36,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // final GlobalKey<NavigatorState> navigatorKey =
-  //     new GlobalKey<NavigatorState>();
-  // final GlobalKey<ScaffoldMessengerState> messengerKey =
-  //     new GlobalKey<ScaffoldMessengerState>();
+
 
   @override
   void initState() {
     super.initState();
-
-    //context
-    // PushNotificationService.messagesStream.listen((message) {
-    //   print('MyApp: $message');
-    //   navigatorKey.currentState?.pushNamed('message', arguments: message);
-
-    //   final snackBar = SnackBar(content: Text(message));
-    //   messengerKey.currentState?.showSnackBar(snackBar);
-    // });
   }
 
   @override
