@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -377,7 +376,7 @@ class _RegistrarIncidenciasScreenState
         'jwt':
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjEsImNvZGlnbyI6IjQzOTg4NzY3IiwiaWF0IjoxNjg4MDc1MTg4fQ.BfOyD4vfupHN2wYfQyp3BlJhYEORRLvZw9avsvaPCeY"
       };
-      List<String> idEstamentos = [selectedEstamento!.idEstamento.toString()];
+      List<int> idEstamentos = [selectedEstamento!.idEstamento];
       Map<String, dynamic> body = {
         'descripcion': descripcion,
         'procedimiento': procedimiento,
@@ -385,10 +384,10 @@ class _RegistrarIncidenciasScreenState
         'longitudDispositivo': longitudDispositivo,
         'latitudIncidencia': latitudIncidencia,
         'longitudIncidencia': longitudIncidencia,
-        'idOperativo': '1',
-        'idCategoriaIncidencia': selectedCategoria!.idCategoria.toString(),
-        'idTipo': selectedTipo!.idTipo.toString(),
-        'idZona': selectedzona!.idZona.toString(),
+        'idOperativo': 1,
+        'idCategoriaIncidencia': selectedCategoria!.idCategoria,
+        'idTipo': selectedTipo!.idTipo,
+        'idZona': selectedzona!.idZona,
         'idEstamentos': idEstamentos,
         'imagenes': base64Images,
       };
@@ -407,7 +406,8 @@ class _RegistrarIncidenciasScreenState
         mostrarMensaje('Incidencia registrada exitosamente.');
       } else {
         // Error en la solicitud
-        print('Error al guardar el registro statusCode: ${response.statusCode}');
+        print(
+            'Error al guardar el registro statusCode: ${response.statusCode}');
       }
     } catch (error) {
       print('Error al guardar el registro: $error');
