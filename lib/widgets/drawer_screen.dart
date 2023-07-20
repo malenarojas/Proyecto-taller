@@ -20,10 +20,25 @@ class _MainPageState extends State<MainPage> {
 
   void initState() {
     super.initState();
+   showResultPage(widget.codigo);
    pages = [
      Center(
-      child: Text('Bienvenido ${widget.codigo}'),
-    ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Bienvenido ${widget.codigo}'),
+            showButton // Mostrar el botón si showButton es true
+                ? FloatingActionButton(
+                    onPressed: () {
+                      // Aquí puedes agregar la funcionalidad del botón
+                      // Por ejemplo, navegar a otra página, mostrar un diálogo, etc.
+                    },
+                    child: Icon(Icons.done),
+                  )
+                : Container(),
+          ],
+        ),
+      ),
     const Center(
       child: Text('Registrar Incidencias'),
     ),
@@ -59,8 +74,8 @@ void updateState(int index) {
     }
   }
 
-  void showResultPage() {
-    String number = '123'; // Reemplaza esto por el número encontrado
+  void showResultPage(String codigo) {
+    String number = '218099282'; // Reemplaza esto por el número encontrado
     bool isValid = isValidNumber(number);
 
     if (isValid) {
@@ -217,15 +232,7 @@ void updateState(int index) {
           ],
         ),
       ),
-       floatingActionButton: showButton // Mostrar el botón si showButton es true
-          ? FloatingActionButton(
-              onPressed: () {
-                // Aquí puedes agregar la funcionalidad del botón
-                // Por ejemplo, navegar a otra página, mostrar un diálogo, etc.
-              },
-              child: Icon(Icons.done),
-            )
-          : null,
+      
     );
   }
 }
