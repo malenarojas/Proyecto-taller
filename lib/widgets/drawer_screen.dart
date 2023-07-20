@@ -16,6 +16,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
 
   late List<Widget> pages;
+  bool showButton = false; 
 
   void initState() {
     super.initState();
@@ -47,6 +48,45 @@ void updateState(int index) {
   Navigator.pop(context);
 }
 
+ bool isValidNumber(String number) {
+    // Aquí puedes agregar tus propias condiciones de validación
+    // Por ejemplo, validar si el número es un número entero positivo
+    try {
+      int parsedNumber = int.parse(number);
+      return parsedNumber > 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void showResultPage() {
+    String number = '123'; // Reemplaza esto por el número encontrado
+    bool isValid = isValidNumber(number);
+
+    if (isValid) {
+      setState(() {
+        showButton = true; // Mostrar el botón si el número es válido
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Número no válido'),
+            content: Text('El número encontrado no es válido.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +217,15 @@ void updateState(int index) {
           ],
         ),
       ),
+       floatingActionButton: showButton // Mostrar el botón si showButton es true
+          ? FloatingActionButton(
+              onPressed: () {
+                // Aquí puedes agregar la funcionalidad del botón
+                // Por ejemplo, navegar a otra página, mostrar un diálogo, etc.
+              },
+              child: Icon(Icons.done),
+            )
+          : null,
     );
   }
 }
