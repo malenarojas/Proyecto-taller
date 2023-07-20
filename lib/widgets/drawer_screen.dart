@@ -115,30 +115,17 @@ void updateState(int index) {
 
   void showResultPage(String codigo) {
     String number = '218099282'; // Reemplaza esto por el número encontrado
-    bool isValid = isValidNumber(number);
+    bool isValid = isValidNumber(codigo);
 
     if (isValid) {
       setState(() {
         showButton = true; // Mostrar el botón si el número es válido
       });
     } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Número no válido'),
-            content: Text('El número encontrado no es válido.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+      setState(() {
+        showButton = false; // Mostrar el botón si el número es válido
+      });
+ 
     }
   }
 
