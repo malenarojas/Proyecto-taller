@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../config/constants.dart';
 import 'defaults.dart';
 
 var indexClicked = 0;
@@ -15,8 +19,42 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
+
+  void sendPostRequest() async {
+    // Construir el cuerpo de la solicitud POST en formato JSON
+    Map<String, dynamic> requestBody = {
+      'idUsuario': 6,
+    };
+    String jsonBody = json.encode(requestBody);
+
+    try {
+      // Realizar la solicitud POST
+      String urls = "${Constants.API_URL}/emergencia";
+      Uri url = Uri.parse(urls);
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonBody,
+      );
+
+      // Verificar la respuesta del servidor
+      if (response.statusCode == 200) {
+        // La solicitud fue exitosa, aquí puedes manejar la respuesta del servidor si es necesario
+        print('Solicitud POST exitosa');
+      } else {
+        // La solicitud falló, aquí puedes manejar el error si es necesario
+        print('Error en la solicitud POST: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Error de conexión o excepción, aquí puedes manejar el error si es necesario
+      print('Error en la solicitud POST: $e');
+    }
+  }
+
   late List<Widget> pages;
-  bool showButton = false; 
+  bool showButton = false;
 
   void initState() {
     super.initState();
@@ -26,15 +64,16 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Bienvenido ${widget.codigo}'),
+            //Text('Bienvenido ${widget.codigo}'),
             showButton // Mostrar el botón si showButton es true
-                ? FloatingActionButton(
-                    onPressed: () {
-                      // Aquí puedes agregar la funcionalidad del botón
-                      // Por ejemplo, navegar a otra página, mostrar un diálogo, etc.
-                    },
-                    child: Icon(Icons.done),
-                  )
+                ? FloatingActionButton.extended(
+              onPressed: () {
+                sendPostRequest();
+              },
+              label: Text('Botón de Emergencia'),
+              icon: Icon(Icons.done),
+              backgroundColor: Colors.red, // Color de fondo rojo
+            )
                 : Container(),
           ],
         ),
