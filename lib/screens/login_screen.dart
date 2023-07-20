@@ -60,15 +60,14 @@ class LoginScreen extends StatelessWidget {
                             autocorrect: false,
                             decoration: InputDecorations.inputDecoration(
                                 hintText: '218099282',
-                                labelText: 'Codigo',
-                                icono:
-                                    const Icon(Icons.numbers)),
+                                labelText: 'Código',
+                                icono: const Icon(Icons.numbers)),
                             validator: (value) {
                               String pattern = r'^\d+$';
                               RegExp regExp = new RegExp(pattern);
                               return regExp.hasMatch(value ?? '')
                                   ? null
-                                  : 'El valor ingresado no es un numero';
+                                  : 'El valor ingresado no es un número';
                             },
                           ),
                           const SizedBox(height: 50),
@@ -147,15 +146,13 @@ class LoginScreen extends StatelessWidget {
         Color.fromARGB(219, 98, 119, 195),
       ])),
       width: double.infinity,
-      height: Size.height * 0.4,
-      child: Stack(
-        children: [
-          Positioned(child: burbuja(), top: 90, left: 30),
-          Positioned(child: burbuja(), top: -40, left: -30),
-          Positioned(child: burbuja(), top: -50, right: -20),
-          Positioned(child: burbuja(), bottom: -50, left: 10),
-          Positioned(child: burbuja(), bottom: 120, right: 20),
-        ],
+      height: Size.height * 0.45,
+      child: Padding(
+        padding: EdgeInsets.all(0),
+        child: Image.asset(
+          'images/authuagrm.jpg',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

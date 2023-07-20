@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,8 +39,21 @@ class _RegistrarIncidenciasScreenState
 
   Estamento? selectedEstamento;
   List<Estamento> estamentos = [
-    Estamento(idEstamento: 4,nombre: 'malena Rojas Camargo', codigo: 218099282, foto: ''),
-    Estamento(idEstamento: 6,nombre: 'Angelica miranda mendoza', codigo: 218099282, foto: ''),
+    Estamento(
+        idEstamento: 3,
+        nombre: 'Eliot German Humerez Aguirre - Docente',
+        codigo: 21404,
+        foto: ''),
+    Estamento(
+        idEstamento: 4,
+        nombre: 'Malena Rojas Camargo - Estudiante',
+        codigo: 218099282,
+        foto: ''),
+    Estamento(
+        idEstamento: 6,
+        nombre: 'Angélica Miranda Mendoza - Estudiante',
+        codigo: 218099282,
+        foto: ''),
   ];
   Categoria? selectedCategoria;
   List<Categoria> categorias = [
@@ -55,7 +69,8 @@ class _RegistrarIncidenciasScreenState
     Tipo(5, "Bullyng"),
     Tipo(6, "Bebidas alcoholicas"),
     Tipo(7, "Conduccion Peligrosa"),
-    Tipo(8, "Parqueo inapropiado"),
+    Tipo(8, "Parqueo Inapropiado"),
+    Tipo(9, "Actos Obscenos"),
   ];
 
   Zona? selectedzona;
@@ -85,59 +100,77 @@ class _RegistrarIncidenciasScreenState
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                DropdownButton<Estamento>(
-                  value: selectedEstamento,
-                  onChanged: (Estamento? newValue) {
-                    setState(() {
-                      selectedEstamento = newValue!;
-                    });
-                  },
-                  items: estamentos.map<DropdownMenuItem<Estamento>>(
-                    (Estamento estamento) {
-                      return DropdownMenuItem<Estamento>(
-                        value: estamento,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width * 0.81,
-                            child: Text(estamento.nombre)),
-                      );
-                    },
-                  ).toList(),
-                ),
-                DropdownButton<Categoria>(
-                  value: selectedCategoria,
-                  onChanged: (Categoria? newValue) {
-                    setState(() {
-                      selectedCategoria = newValue!;
-                    });
-                  },
-                  items: categorias.map<DropdownMenuItem<Categoria>>(
-                    (Categoria categoria) {
-                      return DropdownMenuItem<Categoria>(
-                        value: categoria,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.81,
-                          child: Text(categoria.nombre),
-                        ),
-                      );
-                    },
-                  ).toList(),
-                ),
+                Container(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: DropdownButtonFormField<Estamento>(
+                      decoration: const InputDecoration(
+                        labelText: 'Selecciona al Infractor',
+                        border: OutlineInputBorder(),
+                      ),
+                      hint: Text("Selecciona al Infractor"),
+                      value: selectedEstamento,
+                      onChanged: (Estamento? newValue) {
+                        setState(() {
+                          selectedEstamento = newValue!;
+                        });
+                      },
+                      items: estamentos.map<DropdownMenuItem<Estamento>>(
+                        (Estamento estamento) {
+                          return DropdownMenuItem<Estamento>(
+                            value: estamento,
+                            child: Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: Text(estamento.nombre)),
+                          );
+                        },
+                      ).toList(),
+                    )),
+                Container(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: DropdownButtonFormField<Categoria>(
+                      decoration: const InputDecoration(
+                        labelText: 'Selecciona una Categoría',
+                        border: OutlineInputBorder(),
+                      ),
+                      value: selectedCategoria,
+                      onChanged: (Categoria? newValue) {
+                        setState(() {
+                          selectedCategoria = newValue!;
+                        });
+                      },
+                      items: categorias.map<DropdownMenuItem<Categoria>>(
+                        (Categoria categoria) {
+                          return DropdownMenuItem<Categoria>(
+                            value: categoria,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.75,
+                              child: Text(categoria.nombre),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    )),
                 TextField(
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Ingresar descripcion'),
+                      hintText: 'Ingresar una descripción'),
                   controller: descripcionController,
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Ingresar procemiento'),
+                      hintText: 'Ingresar el procedimiento'),
                   controller: procedimientoController,
                   maxLines: null,
                 ),
                 const SizedBox(height: 10),
-                DropdownButton<Zona>(
+                DropdownButtonFormField<Zona>(
+                  decoration: const InputDecoration(
+                    labelText: 'Selecciona la zona',
+                    border: OutlineInputBorder(),
+                  ),
+                  hint: Text("Selecciona la zona"),
                   value: selectedzona,
                   onChanged: (Zona? newValue) {
                     setState(() {
@@ -149,7 +182,7 @@ class _RegistrarIncidenciasScreenState
                       return DropdownMenuItem<Zona>(
                         value: zona,
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.81,
+                          width: MediaQuery.of(context).size.width * 0.75,
                           child: Text(zona.nombre),
                         ),
                       );
@@ -157,7 +190,12 @@ class _RegistrarIncidenciasScreenState
                   ).toList(),
                 ),
                 const SizedBox(height: 10),
-                DropdownButton<Tipo>(
+                DropdownButtonFormField<Tipo>(
+                  decoration: const InputDecoration(
+                    labelText: 'Selecciona el Tipo de Incidencia',
+                    border: OutlineInputBorder(),
+                  ),
+                  hint: Text("Selecciona el Tipo de Incidencia"),
                   value: selectedTipo,
                   onChanged: (Tipo? newValue) {
                     setState(() {
@@ -169,7 +207,7 @@ class _RegistrarIncidenciasScreenState
                       return DropdownMenuItem<Tipo>(
                         value: tipo,
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.81,
+                          width: MediaQuery.of(context).size.width * 0.75,
                           child: Text(tipo.nombre),
                         ),
                       );
@@ -215,8 +253,8 @@ class _RegistrarIncidenciasScreenState
                         },
                         child: const Text("CARGAR UBICACION DE LA INCIDENCIA"),
                       ),
-                     ),
                     ),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
@@ -229,78 +267,76 @@ class _RegistrarIncidenciasScreenState
                     ? Image.file(selectedImage!)
                     : Container(),
                 const SizedBox(height: 10),
-                  SizedBox(
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        //guardarRegistro();
+                      },
+                      child: Text("Registrar una ubicacion"),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        guardarRegistro();
+                        //mostrarMensaje('Se guardo correctamente');
+                      },
+                      child: Text("REGISTRAR INCIDENCIA"),
+                    ),
+                  ),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FacialScreen()),
+                    );
+                  },
+                  child: Icon(Icons.add),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
                     width: double.infinity,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 0),
                       child: ElevatedButton(
                         onPressed: () {
+                          latitudDispositivoController.text =
+                              mapBloc.mapCenter!.latitude.toString();
+                          longitudDispositivoController.text =
+                              mapBloc.mapCenter!.longitude.toString();
+                          latitudIncidenciaController.text =
+                              mapBloc.ubiDispositivo!.latitude.toString();
+                          longitudIncidenciaController.text =
+                              mapBloc.ubiDispositivo!.longitude.toString();
                           //guardarRegistro();
                         },
-                        child: Text("Registrar una ubicacion"),
+                        child: const Text("Cargar ubicacion"),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          guardarRegistro();
-                          mostrarMensaje('Se guardo correctamente');
-                        },
-                        child: Text("REGISTRAR INCIDENCIA"),
-                      ),
-                    ),
-                  ),
-                FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FacialScreen()),
-                      );
-                    },
-                    child: Icon(Icons.add),
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            latitudDispositivoController.text =
-                                mapBloc.mapCenter!.latitude.toString();
-                            longitudDispositivoController.text =
-                                mapBloc.mapCenter!.longitude.toString();
-                            latitudIncidenciaController.text =
-                                mapBloc.ubiDispositivo!.latitude.toString();
-                            longitudIncidenciaController.text =
-                                mapBloc.ubiDispositivo!.longitude.toString();
-                            //guardarRegistro();
-                          },
-                          child: const Text("Cargar ubicacion"),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
-          );
-       }
-      ),
+          ),
+        );
+      }),
     );
   }
 
-
   void mostrarMensaje(String mensaje) {
-  final snackBar = SnackBar(content: Text(mensaje));
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-}
+    final snackBar = SnackBar(content: Text(mensaje));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   Future<void> pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
@@ -326,10 +362,10 @@ class _RegistrarIncidenciasScreenState
     String idZona = idZonaController.text;
 
     // URL del endpoint del backend
-    String url = "${Constants.API_URL}/incidents";
+    String url = "${Constants.API_URL}/incidencias";
 
     try {
-        List<String> base64Images = [];
+      List<String> base64Images = [];
       if (selectedImage != null) {
         List<int> imageBytes = await selectedImage!.readAsBytes();
         String base64Image = base64Encode(imageBytes);
@@ -341,37 +377,38 @@ class _RegistrarIncidenciasScreenState
         'jwt':
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOjEsImNvZGlnbyI6IjQzOTg4NzY3IiwiaWF0IjoxNjg4MDc1MTg4fQ.BfOyD4vfupHN2wYfQyp3BlJhYEORRLvZw9avsvaPCeY"
       };
-      Map<String, String> body = {
+      List<String> idEstamentos = [selectedEstamento!.idEstamento.toString()];
+      Map<String, dynamic> body = {
         'descripcion': descripcion,
         'procedimiento': procedimiento,
         'latitudDispositivo': latitudDispositivo,
         'longitudDispositivo': longitudDispositivo,
         'latitudIncidencia': latitudIncidencia,
         'longitudIncidencia': longitudIncidencia,
-        'idOperativo': idUsuario,
-        'idCategoria': idCategoria,
-        'idTipoIncidencia': idTipoIncidencia,
-        'idZona': idZona,
-        'imagenes':  jsonEncode(base64Images),
+        'idOperativo': '1',
+        'idCategoriaIncidencia': selectedCategoria!.idCategoria.toString(),
+        'idTipo': selectedTipo!.idTipo.toString(),
+        'idZona': selectedzona!.idZona.toString(),
+        'idEstamentos': idEstamentos,
+        'imagenes': base64Images,
       };
 
-      print('Enviando body: $body');
+      print('Enviando url: $url');
+      print('Enviando body: ${jsonEncode(body)}');
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
         body: jsonEncode(body),
       );
-      print(response);
+      print('Respuesta del servidor: ${response.body}');
       if (response.statusCode == 200) {
         // Éxito en la solicitud
-        print('Registro guardado correctamente');
+        print('Incidencia registrada exitosamente.');
+        mostrarMensaje('Incidencia registrada exitosamente.');
       } else {
         // Error en la solicitud
-        print('Error al guardar el registro: ${response.statusCode}');
+        print('Error al guardar el registro statusCode: ${response.statusCode}');
       }
-
-      print('Registro guardado exitosamente');
-      print('Respuesta del servidor: ${response.body}');
     } catch (error) {
       print('Error al guardar el registro: $error');
     }
