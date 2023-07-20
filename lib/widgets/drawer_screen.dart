@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
   final String codigo;
   final String contrasena;
 
-  MainPage({required this.codigo, required this.contrasena});
+   MainPage({required this.codigo, required this.contrasena});
 
   _MainPageState createState() => _MainPageState();
 }
@@ -65,52 +65,52 @@ class _MainPageState extends State<MainPage> {
 
   void initState() {
     super.initState();
-    showResultPage(widget.codigo);
-    pages = [
-      Center(
+   showResultPage(widget.codigo);
+   pages = [
+     Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //Text('Bienvenido ${widget.codigo}'),
             showButton // Mostrar el botón si showButton es true
                 ? FloatingActionButton.extended(
-                    onPressed: () {
-                      sendPostRequest();
-                    },
-                    label: Text('Botón de Emergencia'),
-                    icon: Icon(Icons.done),
-                    backgroundColor: Colors.red, // Color de fondo rojo
-                  )
+              onPressed: () {
+                sendPostRequest();
+              },
+              label: Text('Botón de Emergencia'),
+              icon: Icon(Icons.done),
+              backgroundColor: Colors.red, // Color de fondo rojo
+            )
                 : Container(),
           ],
         ),
       ),
-      const Center(
-        child: Text('Registrar Incidencias'),
-      ),
-      const Center(
-        child: Text('Registrar ubicacion'),
-      ),
-      const Center(
-        child: Text('Boton alert'),
-      ),
-      const Center(
-        child: Text('Trash'),
-      ),
-      const Center(
-        child: Text('Spam'),
-      ),
-    ];
-  }
+    const Center(
+      child: Text('Registrar Incidencias'),
+    ),
+    const Center(
+      child: Text('Registrar ubicacion'),
+    ),
+    const Center(
+      child: Text('Boton alert'),
+    ),
+    const Center(
+      child: Text('Trash'),
+    ),
+    const Center(
+      child: Text('Spam'),
+    ),
+  ];
+}
 
-  void updateState(int index) {
-    setState(() {
-      indexClicked = index;
-    });
-    Navigator.pop(context);
-  }
+void updateState(int index) {
+  setState(() {
+    indexClicked = index;
+  });
+  Navigator.pop(context);
+}
 
-  bool isValidNumber(String number) {
+ bool isValidNumber(String number) {
     // Aquí puedes agregar tus propias condiciones de validación
     // Por ejemplo, validar si el número es un número entero positivo
     try {
@@ -122,13 +122,8 @@ class _MainPageState extends State<MainPage> {
   }
 
   void showResultPage(String codigo) {
-<<<<<<< HEAD
-    String number = '218099282'; // Reemplaza esto por el número encontrado
-    bool isValid = isValidNumber(codigo);
-=======
     String number = '219079773' == codigo ? codigo : 'as';
     bool isValid = isValidNumber(number);
->>>>>>> 9a3be96283706eac81643b923a8e865814a7324b
 
     if (isValid) {
       setState(() {
@@ -137,17 +132,12 @@ class _MainPageState extends State<MainPage> {
     } else {
       setState(() {
         showButton = false; // Mostrar el botón si el número es válido
-      });
-<<<<<<< HEAD
- 
-=======
->>>>>>> 9a3be96283706eac81643b923a8e865814a7324b
-    }
+      });}
   }
 
   @override
   Widget build(BuildContext context) {
-    final codigo = widget.codigo; // Crear una variable local para 'codigo'
+     final codigo = widget.codigo; // Crear una variable local para 'codigo'
     final contrasena = widget.contrasena;
     return Scaffold(
       appBar: AppBar(
@@ -220,7 +210,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   AppDrawerTile(
                     index: 2,
-                    onTap: () => Navigator.pushReplacementNamed(context, ''),
+                    onTap: () => Navigator.pushReplacementNamed(context, 'Home'),
                   ),
                   AppDrawerTile(
                     index: 3,
@@ -240,7 +230,7 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  AppDrawerDivider(),
+                   AppDrawerDivider(),
                   const SizedBox(
                     height: 10,
                   ),
@@ -272,7 +262,7 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  AppDrawerDivider(),
+                 AppDrawerDivider(),
                 ],
               ),
             ),
