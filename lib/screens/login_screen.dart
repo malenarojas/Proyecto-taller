@@ -4,8 +4,11 @@ import 'package:login/widgets/input_decoration.dart';
 import '../widgets/drawer_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
 
+  
+  LoginScreen({Key? key}) : super(key: key);
+  final TextEditingController codigoController = TextEditingController();
+  final TextEditingController contrasenaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final Size = MediaQuery.of(context).size;
@@ -56,6 +59,7 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: codigoController,
                             keyboardType: TextInputType.emailAddress,
                             autocorrect: false,
                             decoration: InputDecorations.inputDecoration(
@@ -72,6 +76,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 50),
                           TextFormField(
+                            controller: contrasenaController,
                             autocorrect: false,
                             obscureText: true,
                             decoration: InputDecorations.inputDecoration(
@@ -99,10 +104,12 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
+                              String codigo = codigoController.text;
+                              String contrasena = contrasenaController.text;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MainPage()),
+                                    builder: (context) => MainPage(codigo: codigo,contrasena: contrasena)),
                               );
                               //Navigator.pushReplacementNamed(context, 'Incidencia');
                             },

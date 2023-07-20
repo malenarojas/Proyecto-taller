@@ -400,7 +400,7 @@ class _RegistrarIncidenciasScreenState
         body: jsonEncode(body),
       );
       print('Respuesta del servidor: ${response.body}');
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         // Éxito en la solicitud
         print('Incidencia registrada exitosamente.');
         mostrarMensaje('Incidencia registrada exitosamente.');

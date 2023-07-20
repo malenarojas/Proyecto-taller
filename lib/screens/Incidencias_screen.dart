@@ -70,7 +70,7 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
       title: 'Material App',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Lsita de incidencias'),
+          title: const Text('Lista de incidencias'),
         ),
         body: FutureBuilder(
           future: _listadoIncidencias,
@@ -186,16 +186,6 @@ class _IncidenciasScreenState extends State<IncidenciasScreen> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                // Padding(
-                //     padding: EdgeInsets.all(16),
-                //     child: ListView.builder(
-                //       shrinkWrap: true,
-                //       physics: NeverScrollableScrollPhysics(),
-                //       itemCount: incidenciasImagenes.length,
-                //       itemBuilder: (BuildContext context, int index) {
-                //         return Image.asset(incidenciasImagenes[index]);
-                //       },
-                //     )),
               ],
             ),
           ),

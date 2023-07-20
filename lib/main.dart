@@ -13,7 +13,6 @@ import 'package:login/screens/message_screens.dart';
 import 'package:login/screens/status_screen.dart';
 //import 'package:login/services/push_notifications_service.dart';
 import 'package:login/services/socket_service.dart';
-import 'package:login/widgets/drawer_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -54,8 +53,8 @@ class _MyAppState extends State<MyApp> {
         // navigatorKey: navigatorKey,
         // scaffoldMessengerKey: messengerKey,º
         routes: {
-          'drawer':(context) =>  MainPage(),
-          'Login': (context) => const LoginScreen(),
+          //'drawer':(context) =>  MainPage(),
+          'Login': (context) =>  LoginScreen(),
           'Incidencia': (context) => IncidenciasScreen(),
           'Home': (context) => const HomeScreen(),
           'message': (context) => message_screen(),

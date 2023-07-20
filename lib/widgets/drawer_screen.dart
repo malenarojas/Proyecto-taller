@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 
-//import 'package:google_fonts/google_fonts.dart';
-
 import 'defaults.dart';
 
 var indexClicked = 0;
 
 class MainPage extends StatefulWidget {
   @override
+  final String codigo;
+  final String contrasena;
+
+   MainPage({required this.codigo, required this.contrasena});
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  final pages = [
-    const Center(
-      child: Text('Facial Reconiction'),
+
+  late List<Widget> pages;
+
+  void initState() {
+    super.initState();
+   pages = [
+     Center(
+      child: Text('Bienvenido ${widget.codigo}'),
     ),
     const Center(
       child: Text('Registrar Incidencias'),
@@ -32,7 +39,7 @@ class _MainPageState extends State<MainPage> {
       child: Text('Spam'),
     ),
   ];
-
+}
 void updateState(int index) {
   setState(() {
     indexClicked = index;
@@ -43,6 +50,8 @@ void updateState(int index) {
 
   @override
   Widget build(BuildContext context) {
+     final codigo = widget.codigo; // Crear una variable local para 'codigo'
+    final contrasena = widget.contrasena;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -55,7 +64,7 @@ void updateState(int index) {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
                   image: AssetImage('images/drawer.jpg'),
@@ -63,16 +72,16 @@ void updateState(int index) {
               ),
               padding: EdgeInsets.all(0),
               child: Container(
-                child: Column(
+                child: const Column(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                     CircleAvatar(
                       radius: 42,
                       backgroundImage: AssetImage('images/profile.jpg'),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -83,7 +92,7 @@ void updateState(int index) {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 5,
                     ),
                     Text(
